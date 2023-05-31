@@ -1,24 +1,35 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+/**
+ * @Author: Gibeom Choi
+ * @Date:   2023-05-29 17:40:48
+ * @Last Modified by:   Gibeom Choi
+ * @Last Modified time: 2023-05-31 18:06:45
+ */
+import { Body, Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserDTO } from './dto/user.dto';
-import { Request, Response } from 'express';
+import { RegisterRequestDTO } from './dto/register.request.dto';
+import { LoginRequestDTO } from './dto/login.request.dto';
+import { AuthGuard } from './auth.guard';
 
-@Controller('auth')
+// 컨트롤러 변경, v1은 버전을 표기
+// api 서버에서 큰 변화가 있을 시 v2로 라우터 변경하기 위함
+@Controller('api/v1/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
-  async registerAccount(
-    @Req() req: Request,
-    @Body() UserDTO: UserDTO,
-  ): Promise<any> {
-    return await this.authService.registUser(UserDTO);
+  async registerAccount(@Body() request: RegisterRequestDTO): Promise<any> {
+    return await this.authService.registerUser(request);
   }
 
-  @Post('/login')
-  async login(@Body() UserDTO: UserDTO, @Res() res: Response): Promise<any> {
-    const jwt = await this.authService.validateUser(UserDTO);
-    res.setHeader('Authorization', 'Bearer' + jwt.accessToken);
-    return res.json(jwt);
+  @Get('/login')
+  async login(@Body() request: LoginRequestDTO): Promise<any> {
+    return await this.authService.validateUser(request);
+  }
+
+  // token 검증용 라우터
+  @UseGuards(AuthGuard)
+  @Get('/verify')
+  verifyToken(@Req() request: Request) {
+    return request['user'];
   }
 }
