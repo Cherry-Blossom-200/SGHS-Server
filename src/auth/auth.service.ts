@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:10:27
+ * @Last Modified time: 2023-05-31 18:45:18
  */
 import {
   HttpException,
@@ -16,9 +16,10 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../user/entity/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterRequestDTO } from './dto/register.request.dto';
-import { JwtPayload } from './dto/jwt.payload';
+import { JwtPayload } from './dto/jwt.payload.dto';
 import { LoginRequestDTO } from './dto/login.request.dto';
 import { JwtResponseDTO } from './dto/jwt.response.dto';
+import { RegisterResponseDTO } from './dto/register.response.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async registerUser(request: RegisterRequestDTO): Promise<UserDTO> {
+  async registerUser(
+    request: RegisterRequestDTO,
+  ): Promise<RegisterResponseDTO> {
     const userFind: UserDTO = await this.userService.findByField({
       where: { user_name: request.name },
     });
@@ -49,7 +52,25 @@ export class AuthService {
       user_birthday: request.birthday,
     };
 
-    return await this.userService.save(newUser);
+    const savedUser = await this.userService.save(newUser);
+
+    if (!savedUser) {
+      throw new HttpException(
+        'Error has been occurred!',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    const response: RegisterResponseDTO = {
+      user_email: savedUser.user_email,
+      user_age: savedUser.user_age,
+      user_gender: savedUser.user_gender,
+      user_name: savedUser.user_name,
+      user_phone_number: savedUser.user_phone_number,
+      user_registration_time: savedUser.user_registration_time,
+    };
+
+    return response;
   }
 
   async validateUser(

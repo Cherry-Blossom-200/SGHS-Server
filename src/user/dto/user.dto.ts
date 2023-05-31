@@ -1,4 +1,11 @@
+/**
+ * @Author: Gibeom Choi
+ * @Date:   2023-05-29 17:40:48
+ * @Last Modified by:   Gibeom Choi
+ * @Last Modified time: 2023-05-31 18:27:02
+ */
 import { Gender } from '../entity/gender.enum';
+import { Role } from '../entity/role.enum';
 
 export class UserDTO {
   user_name: string;
@@ -10,4 +17,5 @@ export class UserDTO {
   user_birthday?: Date;
   user_registration_time: Date;
   user_modification_time: Date;
+  user_role?: Role;
 }

@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:02:29
+ * @Last Modified time: 2023-05-31 18:26:37
  */
 
 import {
@@ -13,6 +13,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Gender } from './gender.enum';
+import { Role } from './role.enum';
 
 @Entity('user')
 export class User {
@@ -51,4 +52,13 @@ export class User {
   // 수정 시기 시간을 자동으로 업데이트
   @UpdateDateColumn()
   user_modification_time: Date;
+
+  // 관리자 여부
+  @Column({
+    type: 'set',
+    enum: Role,
+    nullable: false,
+    default: Role.ROLE_GUEST,
+  })
+  user_role: Role;
 }
