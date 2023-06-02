@@ -2,23 +2,25 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:26:37
+ * @Last Modified time: 2023-06-02 20:59:21
  */
 
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Gender } from './gender.enum';
 import { Role } from './role.enum';
+import { Site } from 'src/site/entity/site.entity';
 
 @Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  user_id: number;
 
   @Column({ nullable: false })
   user_name: string;
@@ -61,4 +63,8 @@ export class User {
     default: Role.ROLE_GUEST,
   })
   user_role: Role;
+
+  // Site와 User는 다대일(Site vs User) 관계를 지니고 있다.
+  @OneToMany(() => Site, (site) => site.site_administrator)
+  user_enrolled_sites: Site[];
 }

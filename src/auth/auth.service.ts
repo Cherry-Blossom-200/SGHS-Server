@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-02 17:19:16
+ * @Last Modified time: 2023-06-02 21:00:39
  */
 import {
   HttpException,
@@ -94,7 +94,7 @@ export class AuthService {
     const payload: JwtPayload = {
       name: userFind.user_name,
       email: userFind.user_email,
-      id: userFind.id,
+      id: userFind.user_id,
     };
 
     // JWTResponse에는 access_token(만료기간: 10분), refresh_token(만료기간: 1주일)이 포함됨
