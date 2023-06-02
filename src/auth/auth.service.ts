@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:45:18
+ * @Last Modified time: 2023-06-02 17:19:16
  */
 import {
   HttpException,
@@ -61,6 +61,7 @@ export class AuthService {
       );
     }
 
+    // UserDTO를 Response로 보내면 해시된 비밀번호가 유출됨
     const response: RegisterResponseDTO = {
       user_email: savedUser.user_email,
       user_age: savedUser.user_age,
@@ -93,6 +94,7 @@ export class AuthService {
     const payload: JwtPayload = {
       name: userFind.user_name,
       email: userFind.user_email,
+      id: userFind.id,
     };
 
     // JWTResponse에는 access_token(만료기간: 10분), refresh_token(만료기간: 1주일)이 포함됨
