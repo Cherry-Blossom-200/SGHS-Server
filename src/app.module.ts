@@ -2,18 +2,17 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-06 16:08:03
+ * @Last Modified time: 2023-06-09 01:39:40
  */
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { UserModule } from './user/user.module';
 import { SiteModule } from './site/site.module';
-import { HealthService } from './health/health.service';
-import { HealthController } from './health/health.controller';
 import { ReportModule } from './report/report.module';
 import { HealthModule } from './health/health.module';
+import { LoggerMiddleware } from './util/logger.middleware';
 
 @Module({
   imports: [
@@ -27,4 +26,10 @@ import { HealthModule } from './health/health.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+
+// Logger 추가를 위한 NestModule 확장
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
