@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { SiteModule } from './site/site.module';
 import { HealthService } from './health/health.service';
 import { HealthController } from './health/health.controller';
+import { ReportModule } from './report/report.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { HealthModule } from './health/health.module';
     AuthModule,
     UserModule,
     SiteModule,
+    ReportModule,
     HealthModule,
   ],
   controllers: [],
