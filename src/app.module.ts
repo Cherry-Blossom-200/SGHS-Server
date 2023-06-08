@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-02 21:12:45
+ * @Last Modified time: 2023-06-06 16:08:03
  */
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
@@ -13,6 +13,7 @@ import { SiteModule } from './site/site.module';
 import { HealthService } from './health/health.service';
 import { HealthController } from './health/health.controller';
 import { ReportModule } from './report/report.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -21,8 +22,9 @@ import { ReportModule } from './report/report.module';
     UserModule,
     SiteModule,
     ReportModule,
+    HealthModule,
   ],
-  controllers: [HealthController],
-  providers: [HealthService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
