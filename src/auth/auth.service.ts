@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-02 21:00:39
+ * @Last Modified time: 2023-06-10 13:21:30
  */
 import {
   HttpException,
@@ -81,12 +81,16 @@ export class AuthService {
       where: { user_email: request.email },
     });
 
+    if (!userFind) {
+      throw new UnauthorizedException();
+    }
+
     const validatePassword = await bcrypt.compare(
       request.password,
       userFind.user_password,
     );
 
-    if (!userFind || !validatePassword) {
+    if (!validatePassword) {
       throw new UnauthorizedException();
     }
 
