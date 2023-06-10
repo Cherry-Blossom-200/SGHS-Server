@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:06:45
+ * @Last Modified time: 2023-06-10 13:13:37
  */
 import { Body, Controller, Post, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -21,7 +21,7 @@ export class AuthController {
     return await this.authService.registerUser(request);
   }
 
-  @Get('/login')
+  @Post('/login')
   async login(@Body() request: LoginRequestDTO): Promise<any> {
     return await this.authService.validateUser(request);
   }
