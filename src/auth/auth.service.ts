@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-10 13:21:30
+ * @Last Modified time: 2023-06-18 16:10:00
  */
 import {
   HttpException,
@@ -106,6 +106,7 @@ export class AuthService {
     const response: JwtResponseDTO = {
       access_token: this.jwtService.sign(payload),
       refresh_token: null,
+      user_id: userFind.user_id,
     };
 
     return response;
