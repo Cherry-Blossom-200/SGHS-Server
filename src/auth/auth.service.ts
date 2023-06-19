@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-19 22:44:34
+ * @Last Modified time: 2023-06-19 23:02:18
  */
 import {
   HttpException,
@@ -31,11 +31,13 @@ export class AuthService {
   async registerUser(
     request: RegisterRequestDTO,
   ): Promise<RegisterResponseDTO> {
-    const userFind: UserDTO = await this.userService.findByField({
+    const result = await this.userService.findByField({
       where: { user_email: request.email },
     });
 
-    if (userFind) {
+    console.log(result);
+
+    if (result) {
       throw new HttpException('username already used', HttpStatus.BAD_REQUEST);
     }
 
