@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-18 16:10:00
+ * @Last Modified time: 2023-06-19 22:44:34
  */
 import {
   HttpException,
@@ -32,7 +32,7 @@ export class AuthService {
     request: RegisterRequestDTO,
   ): Promise<RegisterResponseDTO> {
     const userFind: UserDTO = await this.userService.findByField({
-      where: { user_name: request.name },
+      where: { user_email: request.email },
     });
 
     if (userFind) {
