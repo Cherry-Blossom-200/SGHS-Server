@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-24 15:34:42
+ * @Last Modified time: 2023-06-24 15:46:46
  */
 import {
   HttpException,
@@ -35,17 +35,20 @@ export class AuthService {
       where: { user_email: request.email },
     });
 
-    const result2 = await this.userService.findByField({
-      where: { user_phone_number: request.phone_number },
-    });
+    if (request.phone_number !== undefined) {
+      const result2 = await this.userService.findByField({
+        where: { user_phone_number: request.phone_number },
+      });
+      if (result2) {
+        throw new HttpException(
+          'phone number already used',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
 
     if (result1) {
       throw new HttpException('email already used', HttpStatus.BAD_REQUEST);
-    } else if (result2) {
-      throw new HttpException(
-        'phone number already used',
-        HttpStatus.BAD_REQUEST,
-      );
     }
 
     // RegisterRequestDTO를 UserDTO로 연결
