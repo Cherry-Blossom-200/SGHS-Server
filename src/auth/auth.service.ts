@@ -2,7 +2,7 @@
  * @Author: Gibeom Choi
  * @Date:   2023-05-29 17:40:48
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-06-10 13:21:30
+ * @Last Modified time: 2023-06-24 15:46:46
  */
 import {
   HttpException,
@@ -31,12 +31,24 @@ export class AuthService {
   async registerUser(
     request: RegisterRequestDTO,
   ): Promise<RegisterResponseDTO> {
-    const userFind: UserDTO = await this.userService.findByField({
-      where: { user_name: request.name },
+    const result1 = await this.userService.findByField({
+      where: { user_email: request.email },
     });
 
-    if (userFind) {
-      throw new HttpException('username already used', HttpStatus.BAD_REQUEST);
+    if (request.phone_number !== undefined) {
+      const result2 = await this.userService.findByField({
+        where: { user_phone_number: request.phone_number },
+      });
+      if (result2) {
+        throw new HttpException(
+          'phone number already used',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+
+    if (result1) {
+      throw new HttpException('email already used', HttpStatus.BAD_REQUEST);
     }
 
     // RegisterRequestDTO를 UserDTO로 연결
@@ -106,6 +118,7 @@ export class AuthService {
     const response: JwtResponseDTO = {
       access_token: this.jwtService.sign(payload),
       refresh_token: null,
+      user_id: userFind.user_id,
     };
 
     return response;

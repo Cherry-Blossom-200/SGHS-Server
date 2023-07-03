@@ -4,7 +4,7 @@ import { Gender } from 'src/user/entity/gender.enum';
  * @Author: Gibeom Choi
  * @Date:   2023-05-31 18:33:49
  * @Last Modified by:   Gibeom Choi
- * @Last Modified time: 2023-05-31 18:35:41
+ * @Last Modified time: 2023-06-18 16:09:18
  */
 export class RegisterResponseDTO {
   user_age: number;
